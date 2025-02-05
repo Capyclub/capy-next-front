@@ -176,7 +176,7 @@ describe("RegisterForm component", () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      const savedData = JSON.parse(localStorage.getItem("registeredUsers") || "[]");P
+      const savedData = JSON.parse(localStorage.getItem("registeredUsers") || "[]");
       expect(savedData).toHaveLength(1);
       expect(savedData[0].email).toBe("john.doe@example.com");
     });
