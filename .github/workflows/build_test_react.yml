@@ -32,11 +32,9 @@ jobs:
         uses: actions/configure-pages@v3
 
       - name : Upload coverage reports to Codeov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          directory: ./coverage
-          files: ./lcov.info
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
