@@ -35,6 +35,7 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./coverage
           files: ./coverage/**/lcov.info
 
       - name: Upload artifact
