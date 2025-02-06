@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/github/Capyclub/capy-next-front/graph/badge.svg?token=HUP4NW57IR)](https://codecov.io/github/Capyclub/capy-next-front)
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
