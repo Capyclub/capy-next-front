@@ -36,7 +36,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage
-          files: ./coverage/lcov.info
+          files: lcov.info
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
