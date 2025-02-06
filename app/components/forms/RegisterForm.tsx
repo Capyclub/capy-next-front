@@ -6,6 +6,7 @@ import { isValidAge, isValidPostalCode, isValidName, isValidEmail } from '../../
 import Image from "next/image";
 import RegisterFormData from "@/app/types/forms/registerFormData";
 import RegisterFormError from "@/app/types/errors/registerFormError";
+import { redirect } from "next/navigation";
 
 function RegisterForm() {
     const [formData, setFormData] = useState<RegisterFormData>({
@@ -94,6 +95,10 @@ function RegisterForm() {
             });
             setErrors({});
             setIsSubmitted(true);
+            //TODO: Add a spin animation for redirect
+            setTimeout(() => {
+                redirect('/admin');
+            }, 2000);
         }
     };
 
