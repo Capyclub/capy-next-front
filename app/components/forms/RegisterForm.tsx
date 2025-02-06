@@ -109,7 +109,7 @@ function RegisterForm() {
 
         <div className="flex h-screen w-screen font-body">
             <div className={"w-3/6 h-full "}>
-                <Image className={"w-full h-full object-cover"} width={800} height={800} src="./capybara.jpg" alt="capybara"/>
+                <Image className={"w-full h-full object-cover"} width={800} height={800} src="/capybara.jpg" alt="capybara"/>
             </div>
             <div className={"w-3/6 h-full flex justify-center items-center"}>
                 <div className={"justify-center align-middle "}>
