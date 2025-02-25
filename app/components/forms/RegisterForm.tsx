@@ -18,6 +18,8 @@ function RegisterForm() {
         birthDate: new Date(Date.now()),
     });
 
+    console.log(process.env.NODE_ENV);
+
     const [errors, setErrors] = useState<RegisterFormError>({});
     const [isFormReady, setIsFormReady] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -118,7 +120,7 @@ function RegisterForm() {
             </div>
             <div className={"w-3/6 h-full flex justify-center items-center"}>
                 <div className={"justify-center align-middle "}>
-                    <h1 className="title">Capyclub subscription</h1>
+                    <h1 className="title">Capyclub subscription 2</h1>
                     {isSubmitted && (
                         <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
                             Form submitted successfully!
