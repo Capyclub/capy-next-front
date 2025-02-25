@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 isAdmin: decodedToken.isAdmin,
             };
             setUser(userData);
-            Cookies.set('token', token, { expires: 7 }); // Expire après 7 jours
+            Cookies.set('token', token, { expires: 7 }); // cookie expire in 7 days
             router.push("/admin");
         } catch (error) {
             console.error("Login error:", error);

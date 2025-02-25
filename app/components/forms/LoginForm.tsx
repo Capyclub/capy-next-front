@@ -1,11 +1,21 @@
 'use client';
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { useAuth } from "../../context/AuthContext";
+import { useRouter } from 'next/navigation';
+
 
 export default function LoginForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { login } = useAuth();
+    const { user, loading } = useAuth();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (user) {
+            router.push('/admin');
+        }
+    }, [loading, user, router]);
 
     const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();

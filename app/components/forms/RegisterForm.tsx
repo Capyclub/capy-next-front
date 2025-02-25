@@ -7,8 +7,9 @@ import { isValidAge, isValidPostalCode, isValidName, isValidEmail } from '../../
 import Image from "next/image";
 import RegisterFormData from "@/app/types/forms/registerFormData";
 import RegisterFormError from "@/app/types/errors/registerFormError";
-import { redirect } from "next/navigation";
+import {redirect, useRouter} from "next/navigation";
 import Link from "next/link";
+import {useAuth} from "@/app/context/AuthContext";
 
 function RegisterForm() {
     const [formData, setFormData] = useState<RegisterFormData>({
@@ -19,8 +20,14 @@ function RegisterForm() {
         email: '',
         birthDate: new Date(Date.now()),
     });
+    const { user, loading } = useAuth();
+    const router = useRouter();
 
-    console.log(process.env.NODE_ENV);
+    useEffect(() => {
+        if (user) {
+            router.push('/admin');
+        }
+    }, [loading, user, router]);
 
     const [errors, setErrors] = useState<RegisterFormError>({});
     const [isFormReady, setIsFormReady] = useState(false);

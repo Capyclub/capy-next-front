@@ -1,22 +1,13 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
 import { fetchUsers } from '../utils/api';
-
-interface User {
-    first_name: string;
-    last_name: string;
-    email: string;
-    city: string;
-    postal_code: string;
-    date_of_birth: string;
-}
+import User from '../types/forms/UserData';
 
 export default function AdminTable() {
     const [users, setUsers] = useState<User[]>([]);
-    const { user, loading } = useAuth();
+    const { user, loading, logout } = useAuth();
     const router = useRouter();
 
 
@@ -44,9 +35,9 @@ export default function AdminTable() {
 
     return (
         <div className="m-4 md:m-16">
-            <Link className="underline" href="/">
-                Retourner à l&apos;accueil
-            </Link>
+            <button onClick={logout} className="mt-4 underline text-red-500">
+                Se déconnecter et revenir au bureau
+            </button>
             <h1 className="title text-left text-2xl font-bold mb-4">CapyClub admin</h1>
             <div className="overflow-x-auto">
                 <table className="min-w-full border border-gray-200">

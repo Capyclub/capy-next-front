@@ -1,9 +1,10 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import User from '@/app/types/forms/UserData';
 
-// Créez une instance d'axios avec une configuration de base
+// Create an instance of axios to use on all the app
 const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL, // Assurez-vous que cette variable d'environnement est définie
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -22,10 +23,9 @@ api.interceptors.request.use(
     }
 );
 
-
-export const fetchUsers = async () => {
+export const fetchUsers = async (): Promise<User[]> => {
     try {
-        const response = await api.get('/users');
+        const response = await api.get<User[]>('/users');
         return response.data;
     } catch (error) {
         console.error('Error fetching users:', error);
@@ -33,15 +33,14 @@ export const fetchUsers = async () => {
     }
 };
 
-export const createUser = async (userData: any) => {
+export const createUser = async (userData: User): Promise<User> => {
     try {
-        const response = await api.post('/users', userData);
+        const response = await api.post<User>('/users', userData);
         return response.data;
     } catch (error) {
         console.error('Error creating user:', error);
         throw error;
     }
 };
-
 
 export default api;
