@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { isValidAge, isValidPostalCode, isValidName, isValidEmail } from '../../utils/module';
 
+
 import Image from "next/image";
 import RegisterFormData from "@/app/types/forms/registerFormData";
 import RegisterFormError from "@/app/types/errors/registerFormError";

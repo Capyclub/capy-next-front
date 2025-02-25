@@ -2,11 +2,14 @@
 import { createContext, useState, useEffect, ReactNode, useContext } from "react";
 import { useRouter } from "next/navigation";
 import api from "../utils/api";
+import Cookies from 'js-cookie';
+import {jwtDecode} from 'jwt-decode';
 
 interface User {
     id: string;
     email: string;
     name: string;
+    isAdmin: boolean;
 }
 
 interface AuthContextType {
@@ -24,10 +27,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const router = useRouter();
 
     useEffect(() => {
-        const checkUser = async () => {
+        const checkUser = () => {
             try {
-                const response = await api.get(process.env.API_URL+"/auth/login");
-                setUser(response.data);
+                const token = Cookies.get('token');
+                if (token) {
+                    const decodedToken: any = jwtDecode(token);
+                    const userData: User = {
+                        id: decodedToken.sub,
+                        email: decodedToken.email,
+                        name: `${decodedToken.first_name} ${decodedToken.last_name}`,
+                        isAdmin: decodedToken.isAdmin,
+                    };
+                    setUser(userData);
+                }
             } catch (error) {
                 setUser(null);
             } finally {
@@ -40,17 +52,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const login = async (email: string, password: string) => {
         try {
-            const response = await api.post("/auth/login", { email, password });
-            setUser(response.data.user);
-            localStorage.setItem("token", response.data.token);
-            router.push("/dashboard");
+            const response = await api.post<{ access_token: string }>(
+                `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+                { email, password }
+            );
+            const token = response.data.access_token;
+            const decodedToken: any = jwtDecode(token);
+            const userData: User = {
+                id: decodedToken.sub,
+                email: decodedToken.email,
+                name: `${decodedToken.first_name} ${decodedToken.last_name}`,
+                isAdmin: decodedToken.isAdmin,
+            };
+            setUser(userData);
+            Cookies.set('token', token, { expires: 7 }); // Expire après 7 jours
+            router.push("/admin");
         } catch (error) {
             console.error("Login error:", error);
         }
     };
 
     const logout = () => {
-        localStorage.removeItem("token");
+        Cookies.remove('token');
         setUser(null);
         router.push("/login");
     };
@@ -62,7 +85,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     );
 };
 
-export const useAuth = () => {
+export const useAuth = (): AuthContextType => {
     const context = useContext(AuthContext);
     if (!context) {
         throw new Error("useAuth must be used within an AuthProvider");
