@@ -17,7 +17,7 @@ export default function LoginForm() {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="flex items-center justify-center min-h-screen bg-[#FCD143] bg-opacity-10">
             <div className="bg-white p-8 rounded shadow-md w-full max-w-sm">
                 <h1 className="text-2xl font-bold mb-6 text-center">Login Page</h1>
                 <form onSubmit={handleSubmit}>
@@ -51,7 +51,7 @@ export default function LoginForm() {
                     </div>
                     <button
                         type="submit"
-                        className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full bg-[#FCD143] text-white py-2 rounded-md hover:bg-opacity-40 focus:outline-none focus:ring-2 focus:bg-opacity-40"
                     >
                         Login
                     </button>

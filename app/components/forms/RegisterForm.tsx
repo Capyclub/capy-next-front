@@ -8,6 +8,7 @@ import Image from "next/image";
 import RegisterFormData from "@/app/types/forms/registerFormData";
 import RegisterFormError from "@/app/types/errors/registerFormError";
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 function RegisterForm() {
     const [formData, setFormData] = useState<RegisterFormData>({
@@ -246,6 +247,12 @@ function RegisterForm() {
                             Submit
                         </button>
                     </form>
+                    <div className={'mt-6'}>
+                        <p className={"text-center  text-bold"}>Etes-vous déjà inscrit ?</p>
+                        <div className={"w-full flex justify-center"}>
+                            <Link  className={'text-[#FCD143] underline text-center w-full'} href={"/login"}>Se connecter</Link>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
