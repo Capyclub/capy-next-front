@@ -20,14 +20,17 @@ api.interceptors.request.use(
         }
         return config;
     },
-    () => Promise.reject()
+    (error) => {
+        console.error('Request error:', error);
+        return Promise.reject(error);
+    }
 );
 
 api.interceptors.response.use(
     (response) => response,
-    () => {
-        console.error('API Error');
-        return Promise.reject();
+    (error) => {
+        console.error('API Error:', error.response?.data || error.message);
+        return Promise.reject(error);
     }
 );
 
