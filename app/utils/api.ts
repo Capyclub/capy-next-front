@@ -20,16 +20,18 @@ api.interceptors.request.use(
         }
         return config;
     },
-    (error) => Promise.reject(error)
+    () => Promise.reject()
 );
 
 api.interceptors.response.use(
     (response) => response,
-    (error) => {
-        console.error('API Error:', error.response?.data || error.message);
-        return Promise.reject(error);
+    () => {
+        console.error('API Error');
+        return Promise.reject();
     }
 );
+
+
 
 /**
  * Fetch all users from the API (User must have a valid token)
