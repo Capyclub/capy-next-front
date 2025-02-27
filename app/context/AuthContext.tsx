@@ -47,11 +47,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                         isAdmin: decodedToken.isAdmin as boolean,
                     };
                     setUser(userData);
+                    setLoading(false);
                 }
             } catch {
                 setUser(null);
-            } finally {
-                setLoading(false);
             }
         };
 
@@ -64,7 +63,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
                 { email, password }
             );
-            const token = response.data.access_token;
+            const token = response.data?.access_token;
             const decodedToken = jwtDecode<CustomJwtPayload>(token);
             const userData: User = {
                 id: decodedToken.sub as string,
@@ -73,10 +72,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 isAdmin: decodedToken.isAdmin as boolean,
             };
             setUser(userData);
-            Cookies.set('token', token, { expires: 7 });
+            if (token) {
+                Cookies.set("token", token, { expires: 7 });
+            } else {
+                console.error("Token is undefined, cannot set cookie");
+            }
             router.push("/admin");
         } catch (error) {
             console.error("Login error:", error);
+            throw new Error("Login error");
         }
     };
 

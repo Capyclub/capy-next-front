@@ -1,7 +1,8 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import {render, screen, fireEvent, waitFor} from "@testing-library/react";
 import RegisterForm from "../../components/forms/RegisterForm";
-import { AuthProvider } from "@/app/context/AuthContext";
+import {AuthProvider} from "@/app/context/AuthContext";
 import { useRouter } from 'next/navigation';
+
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
@@ -13,8 +14,29 @@ beforeEach(() => {
   });
 });
 
+
+jest.mock('js-cookie', () => ({
+  get: jest.fn(),
+  set: jest.fn(),
+  remove: jest.fn(),
+}));
+
+jest.mock('jwt-decode', () => ({
+  jwtDecode: jest.fn(() => ({
+    sub: "1",
+    email: "test@example.com",
+    first_name: "Test",
+    last_name: "User",
+    isAdmin: false,
+  })),
+}));
+
 describe("RegisterForm component", () => {
   beforeEach(() => {
+    (useRouter as jest.Mock).mockReturnValue({
+      push: jest.fn(),
+    });
+
     render(
         <AuthProvider>
           <RegisterForm />
@@ -176,4 +198,34 @@ describe("RegisterForm component", () => {
       expect(savedData[0].email).toBe("john.doe@example.com");
     });
   });
+
+  // it("should redirect to /admin if user is already logged in", async () => {
+  //   // Mock de Cookies pour simuler un utilisateur connecté
+  //   Cookies.set = jest.fn();
+  //   Cookies.get = jest.fn().mockReturnValue('mockedToken');
+  //
+  //   // Mock de useRouter pour capturer la redirection
+  //   const pushMock = jest.fn();
+  //   useRouter.mockReturnValue({
+  //     push: pushMock,
+  //   });
+  //
+  //   render(
+  //       <AuthProvider>
+  //         <RegisterForm />
+  //       </AuthProvider>
+  //   );
+  //
+  //   const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider });
+  //
+  //   await waitFor(() => {
+  //     expect(result.current.user).toBeTruthy();
+  //   });
+  //
+  //   await waitFor(() => {
+  //     expect(pushMock).toHaveBeenCalledWith('/admin');
+  //   });
+  // });
+
+
 });
