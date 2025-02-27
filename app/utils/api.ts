@@ -20,14 +20,14 @@ api.interceptors.request.use(
         }
         return config;
     },
-    (error) => Promise.reject(error)
+    (error) => Promise.reject(error) // eslint-disable-line @typescript-eslint/no-unused-vars
 );
 
 api.interceptors.response.use(
     (response) => response,
     (error) => {
         console.error('API Error:', error.response?.data || error.message);
-        return Promise.reject(error);
+        return Promise.reject(error); // eslint-disable-line @typescript-eslint/no-unused-vars
     }
 );
 
@@ -40,7 +40,7 @@ export const fetchUsers = async (): Promise<User[]> => {
     try {
         const response = await api.get<User[]>('/users');
         return response.data;
-    } catch (error) {
+    } catch {
         throw new Error('Failed to fetch users.');
     }
 };
@@ -62,7 +62,7 @@ export const createUser = async (userData: {
     try {
         const response = await api.post<User>('/users', userData);
         return response.data;
-    } catch (error) {
+    } catch {
         throw new Error('Failed to create user.');
     }
 };
