@@ -1,8 +1,8 @@
 export default interface RegisterFormError {
-  firstName?: string;
-  lastName?: string;
+  first_name?: string;
+  last_name?: string;
   city?: string;
-  postalCode?: string;
+  postal_code?: string;
   email?: string;
-  birthDate?: Date | string;
+  date_of_birth?: Date | string;
 }

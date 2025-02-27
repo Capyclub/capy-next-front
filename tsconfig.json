@@ -26,7 +26,8 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "types": ["jest", "msw"],
   },
   "include": [
     "next-env.d.ts",

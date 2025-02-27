@@ -1,8 +1,8 @@
 export default interface RegisterFormData {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   city: string;
-  postalCode: string;
+  postal_code: string;
   email: string;
-  birthDate: Date;
+  date_of_birth: Date;
 }

@@ -5,4 +5,5 @@ export default interface User {
     city: string;
     postal_code: string;
     date_of_birth: string;
+    password?: string;
 }
