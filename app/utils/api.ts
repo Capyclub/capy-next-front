@@ -20,19 +20,19 @@ api.interceptors.request.use(
         }
         return config;
     },
-    (error) => {
-        console.error('Request error:', error);
-        return Promise.reject(error);
-    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (error) => Promise.reject(error)
 );
 
 api.interceptors.response.use(
     (response) => response,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (error) => {
         console.error('API Error:', error.response?.data || error.message);
         return Promise.reject(error);
     }
 );
+
 
 
 
