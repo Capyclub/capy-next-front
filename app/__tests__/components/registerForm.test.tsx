@@ -198,34 +198,4 @@ describe("RegisterForm component", () => {
       expect(savedData[0].email).toBe("john.doe@example.com");
     });
   });
-
-  // it("should redirect to /admin if user is already logged in", async () => {
-  //   // Mock de Cookies pour simuler un utilisateur connecté
-  //   Cookies.set = jest.fn();
-  //   Cookies.get = jest.fn().mockReturnValue('mockedToken');
-  //
-  //   // Mock de useRouter pour capturer la redirection
-  //   const pushMock = jest.fn();
-  //   useRouter.mockReturnValue({
-  //     push: pushMock,
-  //   });
-  //
-  //   render(
-  //       <AuthProvider>
-  //         <RegisterForm />
-  //       </AuthProvider>
-  //   );
-  //
-  //   const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider });
-  //
-  //   await waitFor(() => {
-  //     expect(result.current.user).toBeTruthy();
-  //   });
-  //
-  //   await waitFor(() => {
-  //     expect(pushMock).toHaveBeenCalledWith('/admin');
-  //   });
-  // });
-
-
 });
