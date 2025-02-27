@@ -20,21 +20,16 @@ api.interceptors.request.use(
         }
         return config;
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (error) => Promise.reject(error)
 );
 
 api.interceptors.response.use(
     (response) => response,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     (error) => {
         console.error('API Error:', error.response?.data || error.message);
         return Promise.reject(error);
     }
 );
-
-
-
 
 /**
  * Fetch all users from the API (User must have a valid token)
