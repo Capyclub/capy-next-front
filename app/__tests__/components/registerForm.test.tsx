@@ -1,28 +1,55 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import {render, screen, fireEvent, waitFor} from "@testing-library/react";
 import RegisterForm from "../../components/forms/RegisterForm";
+import {AuthProvider} from "@/app/context/AuthContext";
+import { useRouter } from 'next/navigation';
+
+
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(),
+}));
+
 beforeEach(() => {
-  localStorage.clear();
+  (useRouter as jest.Mock).mockReturnValue({
+    push: jest.fn(),
+  });
 });
 
-describe("RegisterForm component", () => {
-  beforeAll(() => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date("2024-01-01"));
-  });
 
-  afterAll(() => {
-    jest.useRealTimers();
+jest.mock('js-cookie', () => ({
+  get: jest.fn(),
+  set: jest.fn(),
+  remove: jest.fn(),
+}));
+
+jest.mock('jwt-decode', () => ({
+  jwtDecode: jest.fn(() => ({
+    sub: "1",
+    email: "test@example.com",
+    first_name: "Test",
+    last_name: "User",
+    isAdmin: false,
+  })),
+}));
+
+describe("RegisterForm component", () => {
+  beforeEach(() => {
+    (useRouter as jest.Mock).mockReturnValue({
+      push: jest.fn(),
+    });
+
+    render(
+        <AuthProvider>
+          <RegisterForm />
+        </AuthProvider>
+    );
   });
 
   it("should have empty fields and the submit button should be disabled initially", async () => {
-    render(<RegisterForm />);
     const submitButton = await screen.findByTestId("submit-button");
     expect(submitButton).toBeDisabled();
   });
 
   it("should set isFormReady to true when all fields are filled", () => {
-    render(<RegisterForm />);
-
     const emailInput = screen.getByTestId("email-input");
     const firstNameInput = screen.getByTestId("first-name-input");
     const lastNameInput = screen.getByTestId("last-name-input");
@@ -41,8 +68,6 @@ describe("RegisterForm component", () => {
   });
 
   it("should set isFormReady to false if any field is empty", () => {
-    render(<RegisterForm />);
-
     const emailInput = screen.getByTestId("email-input");
     const firstNameInput = screen.getByTestId("first-name-input");
     const lastNameInput = screen.getByTestId("last-name-input");
@@ -59,8 +84,6 @@ describe("RegisterForm component", () => {
   });
 
   it("should display validation errors for invalid inputs", async () => {
-    render(<RegisterForm />);
-
     const emailInput = screen.getByTestId("email-input");
     const firstNameInput = screen.getByTestId("first-name-input");
     const lastNameInput = screen.getByTestId("last-name-input");
@@ -80,34 +103,32 @@ describe("RegisterForm component", () => {
 
     await waitFor(() => {
       expect(screen.getByTestId("email-error")).toHaveTextContent(
-        "Email is not valid."
+          "Email is not valid."
       );
     });
     await waitFor(() => {
       expect(screen.getByTestId("first-name-error")).toHaveTextContent(
-        "First name must not contain special characters or numbers."
+          "First name must not contain special characters or numbers."
       );
     });
     await waitFor(() => {
       expect(screen.getByTestId("last-name-error")).toHaveTextContent(
-        "Last name must not contain special characters or numbers."
+          "Last name must not contain special characters or numbers."
       );
     });
     await waitFor(() => {
       expect(screen.getByTestId("city-error")).toHaveTextContent(
-        "City name must not contain special characters or numbers."
+          "City name must not contain special characters or numbers."
       );
     });
     await waitFor(() => {
       expect(screen.getByTestId("postal-code-error")).toHaveTextContent(
-        "Postal code must be exactly 5 digits."
+          "Postal code must be exactly 5 digits."
       );
     });
   });
 
   it("should enable the submit button when all fields are valid", async () => {
-    render(<RegisterForm />);
-
     const emailInput = screen.getByTestId("email-input");
     const firstNameInput = screen.getByTestId("first-name-input");
     const lastNameInput = screen.getByTestId("last-name-input");
@@ -129,8 +150,6 @@ describe("RegisterForm component", () => {
   });
 
   it("should submit the form and display success message", async () => {
-    render(<RegisterForm />);
-
     const emailInput = screen.getByTestId("email-input");
     const firstNameInput = screen.getByTestId("first-name-input");
     const lastNameInput = screen.getByTestId("last-name-input");
@@ -150,14 +169,12 @@ describe("RegisterForm component", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText("Form submitted successfully!")
+          screen.getByText("Form submitted successfully!")
       ).toBeInTheDocument();
     });
   });
 
   it("should save the data to localStorage on successful form submission", async () => {
-    render(<RegisterForm />);
-
     const emailInput = screen.getByTestId("email-input");
     const firstNameInput = screen.getByTestId("first-name-input");
     const lastNameInput = screen.getByTestId("last-name-input");

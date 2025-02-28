@@ -1,29 +1,42 @@
 import { calculateAge, isValidAge, isValidPostalCode, isValidName, isValidEmail } from '../utils/module';
 
-//FIXME : Test non fonctionnels
 describe('CalculateAge', () => {
-
     it('should throw an error if no argument is provided', () => {
         expect(() => calculateAge()).toThrow("No argument was provided.");
     });
 
-    // it('should return the correct age', () => {
-    //     const p = {
-    //         birth: new Date('2002-05-22')
-    //     };
+    it('should return the correct age for a valid date', () => {
+        const p = { birth: new Date('2002-05-22') };
+        const currentDate = new Date();
+        let expectedAge = currentDate.getFullYear() - p.birth.getFullYear();
 
-    //     const currentYear = new Date().getFullYear();
-    //     const expectedAge = currentYear - 2002;
+        if (
+            currentDate.getMonth() < p.birth.getMonth() ||
+            (currentDate.getMonth() === p.birth.getMonth() && currentDate.getDate() < p.birth.getDate())
+        ) {
+            expectedAge--;
+        }
 
-    //     expect(calculateAge(p)).toEqual(expectedAge);
-    // });
+        expect(calculateAge(p)).toEqual(expectedAge);
+    });
 
-    // it('should convert a valid string birth date (yyyy-mm-dd) to a Date object and calculate the age', () => {
-    //     const p = { birth: '2002-05-22' };
-    //     const currentYear = new Date().getFullYear();
-    //     const expectedAge = currentYear - 2002;
-    //     expect(calculateAge(p)).toEqual(expectedAge);
-    // });
+
+    it('should convert a valid string birth date to a Date object and calculate the age', () => {
+        const p = { birth: '2002-05-22' };
+        const currentDate = new Date();
+        const birthDate = new Date(p.birth);
+        let expectedAge = currentDate.getFullYear() - birthDate.getFullYear();
+
+        if (
+            currentDate.getMonth() < birthDate.getMonth() ||
+            (currentDate.getMonth() === birthDate.getMonth() && currentDate.getDate() < birthDate.getDate())
+        ) {
+            expectedAge--;
+        }
+
+        expect(calculateAge(p)).toEqual(expectedAge);
+    });
+
 
     it('should throw an error if the object does not contain a birth field', () => {
         const p = {};
@@ -39,7 +52,6 @@ describe('CalculateAge', () => {
         const p = { birth: '22-05-2002' };
         expect(() => calculateAge(p)).toThrow("The date format is invalid. It should be yyyy-mm-dd.");
     });
-
 });
 
 describe('isValidAge', () => {
@@ -77,7 +89,6 @@ describe('isValidName', () => {
     it('should return false for an invalid name', () => {
         expect(isValidName('JAlex123')).toBe(false);
         expect(isValidName('JAlex@Doe')).toBe(false);
-        // Dsl Elon Ton fils peut pas être inscrit au capyclub
         expect(isValidName('X Æ A-12')).toBe(false);
     });
 });
@@ -94,5 +105,4 @@ describe('isValidEmail', () => {
         expect(isValidEmail('email.example.com')).toBe(false);
         expect(isValidEmail('email@example@example.com')).toBe(false);
     });
-
 });

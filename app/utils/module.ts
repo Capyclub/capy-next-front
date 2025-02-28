@@ -4,7 +4,7 @@
  * @param {object} p An object with a birth property.
  * @returns {number} The age of the person in Year of p.
  */
-export function calculateAge(p?: { birth?: Date | string }) {
+export function calculateAge(p?: { birth?: Date | string }): number {
   if (!p) {
     throw new Error("No argument was provided.");
   }
@@ -25,10 +25,15 @@ export function calculateAge(p?: { birth?: Date | string }) {
     throw new Error("The provided date is not valid.");
   }
 
-  const dateDiff = new Date(Date.now() - p.birth.getTime());
-
-  return Math.abs(dateDiff.getUTCFullYear() - 1970);
+  const currentDate = new Date();
+  let age = currentDate.getFullYear() - p.birth.getFullYear();
+  const monthDifference = currentDate.getMonth() - p.birth.getMonth();
+  if (monthDifference < 0 || (monthDifference === 0 && currentDate.getDate() < p.birth.getDate())) {
+    age--;
+  }
+  return age;
 }
+
 
 /**
  * Check if the minimum Age is set on the form.
@@ -39,10 +44,8 @@ export function calculateAge(p?: { birth?: Date | string }) {
 export function isValidAge(birthDate: Date) {
   const age = calculateAge({ birth: birthDate });
 
-  if (age < 18) {
-    return false;
-  }
-  return true;
+  return age >= 18;
+
 }
 
 /**
@@ -75,6 +78,6 @@ export function isValidName(name: string) {
  */
 export function isValidEmail(email: string) {
   const emailPattern =
-    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return emailPattern.test(email);
 }
