@@ -3,6 +3,11 @@ import { AuthProvider, useAuth } from "@/app/context/AuthContext";
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import fetchMock from 'jest-fetch-mock';
+import MockAdapter from 'axios-mock-adapter';
+import axios from "axios";
+
+const mock = new MockAdapter(axios);
+
 
 fetchMock.enableMocks();
 
@@ -92,7 +97,7 @@ describe("AuthContext", () => {
     });
 
     it("should handle login error", async () => {
-        fetchMock.mockRejectOnce(new Error("Login error"));
+        mock.onPost('/auth/login').reply(500);
 
         render(
             <AuthProvider>
@@ -102,15 +107,17 @@ describe("AuthContext", () => {
 
         const { result } = renderHook(() => useAuth(), { wrapper: AuthProvider });
 
-        try {
-            await act(async () => {
+        await act(async () => {
+            try {
                 await result.current.login("test@example.com", "password");
-            });
-        } catch (error) {
-            console.log("Error caught in test:", error);
-            expect(error).toHaveProperty('message', "Login error");
-        }
+            } catch (error) {
+                expect(error).toBeDefined();
+                // @ts-ignore
+                expect(error.message).toBe("Login error");
+            }
+        });
     });
+
 
 });
 
