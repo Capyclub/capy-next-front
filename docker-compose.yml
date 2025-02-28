@@ -23,6 +23,13 @@ services:
     container_name: backend
     ports:
       - "3001:3001"
+    environment:
+      - JWT_SECRET=38296bab37d003cbf29204b966b4e07fd966c1c245c2c4dc0901ad917226f841bfdaf22e1a52e60300c56db362a34a22e52db5e8d04238430cdfa35743d452ee55f5c5c10e73d03eb507e3649827096336e3cff52a30d963578d7b93f8d7c4419015ad41dc36c998772b9a5dfd57d3df61ff0cbd268b580e3aac747812558f69be7e2a4add6ff5e89eec880df47ccb85720dc0e930819035c6b50016604624c6c555eef01ae0650583cc21b04f38a42698729f6acd8479e0483dc5cb21ea8c24de8ccfc27923e1cf89abff468a77e399348a8cea37c3848f939508d8bbaae3b495f72834ab588e301c275b9633c41405d86325372d8bf8689fdd2e27a83c4c61
+      - MONGO_URI_LOCAL=mongodb://root:example@mongodb:27017/admin
+      - MONGO_URI=mongodb://root:example@mongodb:27017/?authSource=admin
+      - PORT=3001
+      - NODE_ENV=development
+      - FRONTEND_URL=http://localhost:3000
     volumes:
       - ./capy-back:/usr/src/app
       - /usr/src/app/node_modules
