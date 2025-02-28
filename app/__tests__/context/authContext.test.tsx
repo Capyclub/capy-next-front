@@ -68,8 +68,6 @@ describe("AuthContext", () => {
         await act(async () => {
             await result.current.login("test@example.com", "password");
         });
-
-        // Vérifiez que l'état user est mis à jour correctement
         expect(result.current.user).toEqual(mockUser);
         expect(Cookies.set).toHaveBeenCalledWith('token', mockToken, { expires: 7 });
     });
