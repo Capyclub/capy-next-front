@@ -24,7 +24,7 @@ export default function AdminTable() {
             }
         };
 
-        if (!loading && !user) {
+        if (!user) {
             router.push('/');
         } else if (user) {
             loadUsers();
