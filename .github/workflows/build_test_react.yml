@@ -64,6 +64,17 @@ jobs:
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
 
+      - name: Wait for services to be ready
+        run: |
+          while ! curl -s http://localhost:3000 > /dev/null; do
+            echo "Waiting for frontend service..."
+            sleep 5
+          done
+          while ! curl -s http://localhost:3001 > /dev/null; do
+            echo "Waiting for backend service..."
+            sleep 5
+          done
+
       - name: Run Cypress tests
         run: npx cypress run
 
