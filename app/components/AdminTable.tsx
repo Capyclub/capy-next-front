@@ -7,7 +7,7 @@ import User from '../types/forms/UserData';
 
 export default function AdminTable() {
     const [users, setUsers] = useState<User[]>([]);
-    const { user, loading, logout } = useAuth();
+    const { user, loading, logout, setLoading } = useAuth();
     const router = useRouter();
 
 
@@ -19,13 +19,16 @@ export default function AdminTable() {
                 setUsers(data);
             } catch (error) {
                 console.error('Failed to fetch users:', error);
+            } finally {
+                setLoading(false);
             }
         };
 
-        if (!loading && !user) {
+        if (!user) {
             router.push('/');
         } else if (user) {
             loadUsers();
+            console.log('user', user);
         }
     }, [loading, user, router]);
 
