@@ -62,7 +62,7 @@ jobs:
       - name: Start services with Docker Compose
         run: docker-compose up --build -d
         env:
-          GITHUB_PAT: ${{ secrets.GITHUB_PAT }}
+          GITHUB_PAT: ${{ secrets.PAT_TOKEN }}
 
       - name: Wait for services to be ready
         run: |
