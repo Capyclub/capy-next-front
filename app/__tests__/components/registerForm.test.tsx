@@ -169,7 +169,7 @@ describe("RegisterForm component", () => {
 
     await waitFor(() => {
       expect(
-          screen.getByText("Form submitted successfully!")
+          screen.getByText("Form submitted successfully! You will be redirected to the admin page shortly.")
       ).toBeInTheDocument();
     });
   });
