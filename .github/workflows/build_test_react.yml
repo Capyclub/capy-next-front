@@ -24,6 +24,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name : Set environnement variables
+        run: echo "NEXT_PUBLIC_API_URL=http://localhost:3001" >> $GITHUB_ENV
+
       - name: Build
         run: npm run build --if-present
 
