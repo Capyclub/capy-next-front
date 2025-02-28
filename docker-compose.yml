@@ -1,0 +1,51 @@
+networks:
+  app_network:
+
+services:
+  mongodb:
+    image: mongo:6
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - app_network
+    restart: always
+
+  backend:
+    build:
+      context: https://${GITHUB_PAT}@github.com/Capyclub/capy-back.git
+      dockerfile: Dockerfile
+    container_name: backend
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./capy-back:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run start:dev
+    depends_on:
+      - mongodb
+    networks:
+      - app_network
+
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - app_network
+
+
+volumes:
+  mongo-data:
