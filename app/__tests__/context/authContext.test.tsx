@@ -112,8 +112,12 @@ describe("AuthContext", () => {
                 await result.current.login("test@example.com", "password");
             } catch (error) {
                 expect(error).toBeDefined();
-                // @ts-ignore
-                expect(error.message).toBe("Login error");
+
+                if (error instanceof Error) {
+                    expect(error.message).toBe("Login error");
+                } else {
+                    throw new Error("Unexpected error type");
+                }
             }
         });
     });
