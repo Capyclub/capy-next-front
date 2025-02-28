@@ -50,6 +50,12 @@ jobs:
       - name: Authenticate with npm
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
+      - name: Install Cypress
+        run: npm install cypress --save-dev
+
+      - name: Run Cypress tests
+        run: npx cypress run
+
       # - name: Build and publish package on NPM
       #   run: |
       #     git config --global user.email "tommosti1@gmail.com"

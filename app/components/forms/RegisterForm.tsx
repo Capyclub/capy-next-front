@@ -162,7 +162,7 @@ function RegisterForm() {
                     <h1 className="title">Capyclub subscription 2</h1>
                     {isSubmitted && (
                         <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                            Form submitted successfully!
+                            Form submitted successfully! You will be redirected to the admin page shortly.
                         </div>
                     )}
                     <form className="max-w-md mx-auto" onSubmit={handleSubmit}>

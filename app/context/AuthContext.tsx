@@ -23,6 +23,7 @@ interface CustomJwtPayload extends JwtPayload {
 interface AuthContextType {
     user: User | null;
     loading: boolean;
+    setLoading: (loading: boolean) => void;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
 }
@@ -91,7 +92,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, logout }}>
+        <AuthContext.Provider value={{ user, loading, login,setLoading, logout }}>
             {children}
         </AuthContext.Provider>
     );
